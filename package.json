@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/adobe/aem-boilerplate.git"
+    "url": "git+https://github.com/valerypost/adobe-poc.git"
   },
   "author": "Microsoft",
   "license": "Apache License 2.0",
