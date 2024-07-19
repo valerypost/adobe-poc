@@ -34,7 +34,7 @@ export default function decorate(block) {
             </li>
         `;
   const template = html`
-            <div class="cards-wrapper template1
+            <div class="cards-wrapper">
                 <div class="cards block" data-block-name="blocks" data-block-status="loaded">
                     <ul>
                         ${context.rows.map(row => cardTemplate(row))}
