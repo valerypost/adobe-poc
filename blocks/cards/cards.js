@@ -1,18 +1,50 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import {html, render} from 'https://esm.run/lit-html@1';
 
 export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
+  const context = {
+    rows: []
+  };
   [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    while (row.firstElementChild) li.append(row.firstElementChild);
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
-      else div.className = 'cards-card-body test1';
+    var    pictureElement = null;
+    var    bodyElement = null;
+    [...row.children].forEach((col) => {
+      if(col.querySelector('picture')){
+        pictureElement = col.querySelector('picture');
+
+      }else{
+        bodyElement = col;
+      }
+
     });
-    ul.append(li);
+    context.rows.push({
+      picture: pictureElement,
+      body: bodyElement
+    });
   });
-  ul.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
-  block.textContent = '';
-  block.append(ul);
+
+  const cardTemplate = (block) => html`
+            <li>
+                <div class="cards-card-image">
+                    ${block.picture}
+                </div>
+                <div class="cards-card-body">
+                    ${block.body}
+                </div>
+            </li>
+        `;
+  const template = html`
+            <div class="cards-wrapper">
+                <div class="cards block" data-block-name="blocks" data-block-status="loaded">
+                    <ul>
+                        ${context.rows.map(block => cardTemplate(block))}
+                    </ul>
+                </div>
+            </div>
+        `;
+
+  render(template, block);
+
+  block.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+
 }
