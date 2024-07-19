@@ -23,13 +23,13 @@ export default function decorate(block) {
     });
   });
 
-  const cardTemplate = (block) => html`
+  const cardTemplate = (row) => html`
             <li>
                 <div class="cards-card-image">
-                    ${block.picture}
+                    ${row.picture}
                 </div>
                 <div class="cards-card-body">
-                    ${block.body}
+                    ${row.body}
                 </div>
             </li>
         `;
@@ -37,7 +37,7 @@ export default function decorate(block) {
             <div class="cards-wrapper">
                 <div class="cards block" data-block-name="blocks" data-block-status="loaded">
                     <ul>
-                        ${context.rows.map(block => cardTemplate(block))}
+                        ${context.rows.map(row => cardTemplate(row))}
                     </ul>
                 </div>
             </div>
